@@ -7,6 +7,8 @@ import '../../presentation/screens/auth/signup_screen.dart';
 import '../../presentation/screens/auth/forgot_password_screen.dart';
 import '../../presentation/screens/home/home_screen.dart';
 import '../../presentation/screens/profile/profile_screen.dart';
+import '../../presentation/screens/profile/profile_edit_screen.dart';
+import '../../presentation/screens/about/about_screen.dart';
 import '../navigation/main_navigation_shell.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
@@ -87,6 +89,18 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             ),
           ),
         ],
+      ),
+      
+      // Full-screen routes (without bottom nav)
+      GoRoute(
+        path: '/profile/edit',
+        name: 'profile-edit',
+        builder: (context, state) => const ProfileEditScreen(),
+      ),
+      GoRoute(
+        path: '/about',
+        name: 'about',
+        builder: (context, state) => const AboutScreen(),
       ),
     ],
   );

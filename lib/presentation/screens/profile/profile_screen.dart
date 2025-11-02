@@ -154,10 +154,7 @@ class ProfileScreen extends ConsumerWidget {
                         title: 'Edit Profile',
                         subtitle: 'Update your personal information',
                         onTap: () {
-                          // TODO: Navigate to edit profile
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Edit profile coming soon!')),
-                          );
+                          context.push('/profile/edit');
                         },
                       ),
                       const SizedBox(height: 12),
@@ -201,10 +198,7 @@ class ProfileScreen extends ConsumerWidget {
                         title: 'About Us',
                         subtitle: 'Learn more about AppTest',
                         onTap: () {
-                          // TODO: Navigate to about screen
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('About screen coming soon!')),
-                          );
+                          context.push('/about');
                         },
                       ),
                       const SizedBox(height: 12),
