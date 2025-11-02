@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/constants/text_styles.dart';
 import '../../providers/auth_provider.dart';
@@ -184,8 +185,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             alignment: Alignment.centerRight,
                             child: TextButton(
                               onPressed: () {
-                                // Navigate to forgot password
-                                Navigator.pushNamed(context, '/forgot-password');
+                                context.go('/auth/forgot-password');
                               },
                               child: Text(
                                 'Forgot Password?',
@@ -269,7 +269,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushReplacementNamed(context, '/signup');
+                          context.go('/auth/signup');
                         },
                         child: Text(
                           'Sign Up',
