@@ -9,6 +9,7 @@ import '../../presentation/screens/home/home_screen.dart';
 import '../../presentation/screens/profile/profile_screen.dart';
 import '../../presentation/screens/profile/profile_edit_screen.dart';
 import '../../presentation/screens/about/about_screen.dart';
+import '../../presentation/screens/products/products_screen.dart';
 import '../navigation/main_navigation_shell.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
@@ -69,7 +70,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             name: 'products',
             pageBuilder: (context, state) => NoTransitionPage(
               key: state.pageKey,
-              child: const Placeholder(), // TODO: Products screen
+              child: const ProductsScreen(),
             ),
           ),
           GoRoute(
