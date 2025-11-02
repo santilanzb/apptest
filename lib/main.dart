@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/theme/app_theme.dart';
+import 'core/router/app_router.dart';
 import 'data/services/supabase_service.dart';
 
 void main() async {
@@ -29,7 +30,7 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   final bool supabaseInitialized;
   final String? errorMessage;
   
@@ -40,15 +41,14 @@ class MyApp extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(goRouterProvider);
+    
+    return MaterialApp.router(
       title: 'AppTest - Consulting App',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      home: TestHomeScreen(
-        supabaseInitialized: supabaseInitialized,
-        errorMessage: errorMessage,
-      ),
+      routerConfig: router,
     );
   }
 }
