@@ -101,6 +101,13 @@ class SupabaseService {
         .eq('id', userId);
   }
   
+  // Create or update user profile (upsert)
+  static Future<void> upsertUserProfile(Map<String, dynamic> data) async {
+    await client
+        .from('profiles')
+        .upsert(data);
+  }
+  
   // Upload file to storage
   static Future<String> uploadFile({
     required String bucket,

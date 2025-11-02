@@ -18,6 +18,19 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/',
     redirect: (context, state) {
+      // Handle loading and error states
+      if (authState.isLoading) {
+        return null; // Keep on current route while loading
+      }
+      
+      if (authState.hasError) {
+        // If there's an auth error, go to login
+        if (!state.matchedLocation.startsWith('/auth')) {
+          return '/auth/login';
+        }
+        return null;
+      }
+      
       final isAuthenticated = authState.value != null;
       final isAuthRoute = state.matchedLocation.startsWith('/auth');
       

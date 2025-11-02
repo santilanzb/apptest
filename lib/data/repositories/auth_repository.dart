@@ -16,11 +16,16 @@ class AuthRepository {
       throw Exception('Sign in failed');
     }
 
-    // Fetch user profile
-    final profile = await SupabaseService.getUserProfile(response.user!.id);
+    // Fetch user profile with retry
+    Map<String, dynamic>? profile;
+    for (int i = 0; i < 3; i++) {
+      profile = await SupabaseService.getUserProfile(response.user!.id);
+      if (profile != null) break;
+      if (i < 2) await Future.delayed(const Duration(milliseconds: 500));
+    }
     
     if (profile == null) {
-      throw Exception('User profile not found');
+      throw Exception('User profile not found. Please contact support.');
     }
 
     return UserModel.fromJson(profile);
@@ -44,11 +49,31 @@ class AuthRepository {
       throw Exception('Sign up failed');
     }
 
-    // Fetch user profile
-    final profile = await SupabaseService.getUserProfile(response.user!.id);
+    // Wait for trigger to create profile (retry with delay)
+    Map<String, dynamic>? profile;
+    for (int i = 0; i < 5; i++) {
+      await Future.delayed(Duration(milliseconds: 500 * (i + 1)));
+      profile = await SupabaseService.getUserProfile(response.user!.id);
+      if (profile != null) break;
+    }
     
+    // If profile still doesn't exist, create it manually (fallback)
     if (profile == null) {
-      throw Exception('User profile not found');
+      final now = DateTime.now().toIso8601String();
+      await SupabaseService.upsertUserProfile({
+        'id': response.user!.id,
+        'email': response.user!.email!,
+        'full_name': fullName,
+        'role': role,
+        'created_at': now,
+        'updated_at': now,
+      });
+      
+      profile = await SupabaseService.getUserProfile(response.user!.id);
+      
+      if (profile == null) {
+        throw Exception('Failed to create user profile');
+      }
     }
 
     return UserModel.fromJson(profile);
