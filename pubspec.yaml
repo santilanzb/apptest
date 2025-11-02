@@ -1,0 +1,103 @@
+name: apptest
+description: "Modern consulting app with Framer-inspired UI/UX"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Core
+  cupertino_icons: ^1.0.8
+  
+  # Supabase
+  supabase_flutter: ^2.8.0
+  
+  # State Management
+  flutter_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
+  
+  # Navigation
+  go_router: ^14.6.2
+  
+  # Payment
+  flutter_stripe: ^11.2.0
+  
+  # UI/Animations
+  flutter_animate: ^4.5.0
+  lottie: ^3.1.3
+  shimmer: ^3.0.0
+  glassmorphism: ^3.0.0
+  smooth_page_indicator: ^1.2.0+3
+  
+  # Chat/Files
+  flutter_chat_ui: ^1.6.15
+  image_picker: ^1.1.2
+  file_picker: ^8.1.6
+  cached_network_image: ^3.4.1
+  
+  # Notifications
+  firebase_core: ^3.8.1
+  firebase_messaging: ^15.1.5
+  flutter_local_notifications: ^18.0.1
+  
+  # Utils
+  intl: ^0.20.1
+  uuid: ^4.5.1
+  flutter_dotenv: ^5.2.1
+  json_annotation: ^4.9.0
+  url_launcher: ^6.3.1
+  flutter_svg: ^2.0.14
+  google_fonts: ^6.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+  build_runner: ^2.4.14
+  riverpod_generator: ^2.6.1
+  json_serializable: ^6.9.2
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - .env
+    - assets/images/
+    - assets/lottie/
+    - assets/icons/
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/to/resolution-aware-images
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/to/asset-from-package
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/to/font-from-package
