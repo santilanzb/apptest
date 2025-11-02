@@ -3,9 +3,12 @@ import '../../data/repositories/product_repository.dart';
 import '../../data/models/product_model.dart';
 import '../../data/services/supabase_service.dart';
 
+// Supabase Client Provider
+final supabaseProvider = Provider((ref) => SupabaseService.client);
+
 // Product Repository Provider
 final productRepositoryProvider = Provider<ProductRepository>((ref) {
-  final supabase = ref.watch(supabaseServiceProvider);
+  final supabase = ref.watch(supabaseProvider);
   return ProductRepository(supabase);
 });
 

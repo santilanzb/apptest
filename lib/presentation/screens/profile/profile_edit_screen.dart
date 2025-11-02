@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/constants/text_styles.dart';
-import '../../widgets/custom_text_field.dart';
-import '../../widgets/custom_button.dart';
-import '../../../data/providers/auth_provider.dart';
+import '../../widgets/common/custom_text_field.dart';
+import '../../widgets/common/custom_button.dart';
+import '../../providers/auth_provider.dart';
 
 class ProfileEditScreen extends ConsumerStatefulWidget {
   const ProfileEditScreen({super.key});
@@ -17,7 +17,6 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   final _formKey = GlobalKey<FormState>();
   final _fullNameController = TextEditingController();
   final _phoneController = TextEditingController();
-  final _addressController = TextEditingController();
   
   bool _isLoading = false;
 
@@ -28,11 +27,11 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   }
 
   void _loadUserData() {
-    final user = ref.read(authNotifierProvider).valueOrNull;
+    final user = ref.read(authProvider).valueOrNull;
     if (user != null) {
       _fullNameController.text = user.fullName ?? '';
-      _phoneController.text = user.phoneNumber ?? '';
-      _addressController.text = user.address ?? '';
+      _phoneController.text = user.phone ?? '';
+      // Address field removed - not in UserModel
     }
   }
 
@@ -40,7 +39,6 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   void dispose() {
     _fullNameController.dispose();
     _phoneController.dispose();
-    _addressController.dispose();
     super.dispose();
   }
 
@@ -80,7 +78,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authNotifierProvider);
+    final authState = ref.watch(authProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -224,7 +222,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  user.role.name.toUpperCase(),
+                                  user.role.toUpperCase(),
                                   style: AppTextStyles.bodyMedium.copyWith(
                                     fontWeight: FontWeight.w600,
                                     color: AppColors.primary,
@@ -243,7 +241,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                       controller: _fullNameController,
                       label: 'Full Name',
                       hint: 'Enter your full name',
-                      prefixIcon: Icons.person_rounded,
+                      prefixIcon: const Icon(Icons.person_rounded),
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
                           return 'Please enter your full name';
@@ -257,7 +255,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                       controller: _phoneController,
                       label: 'Phone Number',
                       hint: 'Enter your phone number',
-                      prefixIcon: Icons.phone_rounded,
+                      prefixIcon: const Icon(Icons.phone_rounded),
                       keyboardType: TextInputType.phone,
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
@@ -267,15 +265,6 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                         }
                         return null;
                       },
-                    ),
-                    const SizedBox(height: 16),
-
-                    CustomTextField(
-                      controller: _addressController,
-                      label: 'Address',
-                      hint: 'Enter your address',
-                      prefixIcon: Icons.location_on_rounded,
-                      maxLines: 3,
                     ),
                     const SizedBox(height: 32),
 
@@ -293,7 +282,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                       onPressed: _isLoading
                           ? null
                           : () => Navigator.of(context).pop(),
-                      variant: ButtonVariant.outlined,
+                      isOutlined: true,
                     ),
                   ],
                 ),
