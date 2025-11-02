@@ -6,6 +6,7 @@ import '../../presentation/screens/auth/login_screen.dart';
 import '../../presentation/screens/auth/signup_screen.dart';
 import '../../presentation/screens/auth/forgot_password_screen.dart';
 import '../../presentation/screens/home/home_screen.dart';
+import '../../presentation/screens/profile/profile_screen.dart';
 import '../navigation/main_navigation_shell.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
@@ -82,7 +83,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             name: 'profile',
             pageBuilder: (context, state) => NoTransitionPage(
               key: state.pageKey,
-              child: const Placeholder(), // TODO: Profile screen
+              child: const ProfileScreen(),
             ),
           ),
         ],
