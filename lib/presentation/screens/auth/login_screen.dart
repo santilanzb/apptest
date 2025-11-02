@@ -223,33 +223,57 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           const SizedBox(height: 24),
                           
                           // Social Login Buttons
-                          CustomButton(
-                            text: 'Continue with Google',
-                            onPressed: () {
-                              // TODO: Implement Google Sign In
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Google Sign In coming soon!'),
+                          SizedBox(
+                            width: double.infinity,
+                            child: OutlinedButton.icon(
+                              onPressed: () {
+                                // TODO: Implement Google Sign In
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Google Sign In coming soon!'),
+                                  ),
+                                );
+                              },
+                              icon: Icon(Icons.g_mobiledata, size: 28, color: AppColors.primary),
+                              label: Text(
+                                'Continue with Google',
+                                style: AppTextStyles.button.copyWith(color: AppColors.primary),
+                              ),
+                              style: OutlinedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                side: BorderSide(color: AppColors.primary, width: 1.5),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                              );
-                            },
-                            isOutlined: true,
-                            icon: const Icon(Icons.g_mobiledata, size: 24),
+                              ),
+                            ),
                           ),
                           const SizedBox(height: 12),
                           
-                          CustomButton(
-                            text: 'Continue with Apple',
-                            onPressed: () {
-                              // TODO: Implement Apple Sign In
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Apple Sign In coming soon!'),
+                          SizedBox(
+                            width: double.infinity,
+                            child: OutlinedButton.icon(
+                              onPressed: () {
+                                // TODO: Implement Apple Sign In
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Apple Sign In coming soon!'),
+                                  ),
+                                );
+                              },
+                              icon: Icon(Icons.apple, size: 24, color: AppColors.textPrimary),
+                              label: Text(
+                                'Continue with Apple',
+                                style: AppTextStyles.button.copyWith(color: AppColors.textPrimary),
+                              ),
+                              style: OutlinedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                side: BorderSide(color: AppColors.border, width: 1.5),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                              );
-                            },
-                            isOutlined: true,
-                            icon: const Icon(Icons.apple, size: 20),
+                              ),
+                            ),
                           ),
                         ],
                       ),

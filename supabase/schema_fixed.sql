@@ -153,12 +153,8 @@ CREATE POLICY "Users can view their own profile" ON profiles
 CREATE POLICY "Users can update their own profile" ON profiles
   FOR UPDATE USING (auth.uid() = id);
 
-CREATE POLICY "Admins can view all profiles" ON profiles
-  FOR SELECT USING (
-    EXISTS (
-      SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'
-    )
-  );
+-- Note: Admin policy removed to avoid infinite recursion
+-- Admins can still access via direct API calls with service role key
 
 -- PRODUCTS POLICIES
 CREATE POLICY "Anyone can view active products" ON products
