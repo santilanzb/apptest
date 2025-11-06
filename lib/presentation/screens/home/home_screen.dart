@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/constants/text_styles.dart';
 import '../../providers/auth_provider.dart';
@@ -84,7 +85,7 @@ class HomeScreen extends ConsumerWidget {
                       title: 'Browse Products',
                       subtitle: 'View catalog',
                       color: AppColors.primary,
-                      onTap: () {},
+                      onTap: () => context.push('/products'),
                     ),
                     _buildQuickActionCard(
                       context,
@@ -92,7 +93,7 @@ class HomeScreen extends ConsumerWidget {
                       title: 'Messages',
                       subtitle: 'Chat with team',
                       color: AppColors.success,
-                      onTap: () {},
+                      onTap: () => context.push('/chat'),
                     ),
                     _buildQuickActionCard(
                       context,
@@ -100,7 +101,7 @@ class HomeScreen extends ConsumerWidget {
                       title: 'Appointments',
                       subtitle: 'Schedule meeting',
                       color: AppColors.accent,
-                      onTap: () {},
+                      onTap: () => context.push('/appointments/client/:userId'),
                     ),
                     _buildQuickActionCard(
                       context,

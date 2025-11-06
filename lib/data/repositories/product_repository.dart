@@ -32,7 +32,7 @@ class ProductRepository {
           .eq('id', id)
           .single();
 
-      return ProductModel.fromJson(response as Map<String, dynamic>);
+      return ProductModel.fromJson(response);
     } catch (e) {
       throw Exception('Failed to fetch product: $e');
     }

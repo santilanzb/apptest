@@ -11,6 +11,8 @@ import '../../presentation/screens/profile/profile_edit_screen.dart';
 import '../../presentation/screens/about/about_screen.dart';
 import '../../presentation/screens/products/products_screen.dart';
 import '../navigation/main_navigation_shell.dart';
+import '../../presentation/screens/appointments/appointments_screen_client.dart';
+
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authProvider);
@@ -102,6 +104,17 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               child: const ProfileScreen(),
             ),
           ),
+          GoRoute(
+            path: '/appointments/client/:userId',
+            name: 'clientCalendar',
+            pageBuilder: (context, state) {
+              final userId = state.pathParameters['userId']!;
+              return NoTransitionPage(
+                key: state.pageKey,
+                child: ClientCalendarScreen(userId: userId)
+              );
+            },
+          )
         ],
       ),
       

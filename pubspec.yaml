@@ -33,6 +33,9 @@ dependencies:
   shimmer: ^3.0.0
   glassmorphism: ^3.0.0
   smooth_page_indicator: ^1.2.0+3
+
+  # Calendar
+  syncfusion_flutter_calendar: ^28.1.39
   
   # Chat/Files
   flutter_chat_ui: ^1.6.15
