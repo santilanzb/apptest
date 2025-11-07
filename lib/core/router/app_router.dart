@@ -1,3 +1,4 @@
+import 'package:apptest/presentation/screens/appointments/appointments_screen_team.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -111,10 +112,21 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               final userId = state.pathParameters['userId']!;
               return NoTransitionPage(
                 key: state.pageKey,
-                child: ClientCalendarScreen(userId: userId)
+                child: AppointmentsClientScreen(clientId: userId)
               );
             },
-          )
+          ),
+          GoRoute(
+              path: '/appointments/team:userId',
+              name: 'teamCalendar',
+              pageBuilder: (context, state) {
+                final userId = state.pathParameters['userId']!;
+                return NoTransitionPage(
+                  key: state.pageKey,
+                  child: TeamCalendarScreen(userId: userId)
+                );
+              },
+          ),
         ],
       ),
       

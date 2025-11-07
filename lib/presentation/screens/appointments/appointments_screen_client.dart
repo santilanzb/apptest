@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
-import 'widgets/calendar_widget.dart';
+import 'widgets/table_widget.dart';
 
 
-class ClientCalendarScreen extends StatelessWidget {
-  final String userId;
-  const ClientCalendarScreen({super.key, required this.userId});
+class AppointmentsClientScreen extends StatelessWidget {
+  final String clientId;
+  const AppointmentsClientScreen({
+    super.key,
+    required this.clientId
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('My Appointment')),
-      body: CalendarWidget(userId: userId),
+      appBar: AppBar(title: const Text('My Appointments')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: AppointmentsTableWidget(clientId: clientId)
+      )
     );
   }
-
 }
