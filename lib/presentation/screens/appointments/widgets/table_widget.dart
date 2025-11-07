@@ -54,7 +54,7 @@ class _AppointmentsTableWidgetState extends State<AppointmentsTableWidget> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: DataTable(
-        headingRowColor: MaterialStateProperty.all(Colors.blue.shade50),
+        headingRowColor: WidgetStateProperty.all(Colors.blue.shade50),
         columns: const [
           DataColumn(label: Text('Date')),
           DataColumn(label: Text('Time')),
