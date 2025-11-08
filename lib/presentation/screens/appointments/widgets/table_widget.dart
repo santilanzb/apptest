@@ -27,7 +27,13 @@ class _AppointmentsTableWidgetState extends State<AppointmentsTableWidget> {
     try {
       final response = await _supabase
           .from('appointments')
-          .select('scheduled_at, duration_minutes, health_professional_id, status, notes')
+          .select('''
+          scheduled_at, 
+          duration_minutes,
+          health_professional:profiles(full_name),
+          status,
+          notes
+         ''')
           .eq('client_id', widget.clientId)
           .order('scheduled_at', ascending: true);
 
@@ -52,15 +58,16 @@ class _AppointmentsTableWidgetState extends State<AppointmentsTableWidget> {
     }
 
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
+      // scrollDirection: Axis.horizontal,
       child: DataTable(
-        headingRowColor: MaterialStateProperty.all(Colors.blue.shade50),
+        headingRowColor: WidgetStatePropertyAll(Colors.blue.shade50),
         columns: const [
           DataColumn(label: Text('Date')),
           DataColumn(label: Text('Time')),
           DataColumn(label: Text('Professional')),
           DataColumn(label: Text('Status')),
           DataColumn(label: Text('Notes')),
+          DataColumn(label: Text('Location')),
         ],
         rows: _appointments.map((appt) {
           final start = DateTime.parse(appt['scheduled_at']);
@@ -71,9 +78,10 @@ class _AppointmentsTableWidgetState extends State<AppointmentsTableWidget> {
           return DataRow(cells: [
             DataCell(Text(_formatDate(start))),
             DataCell(Text(timeRange)),
-            DataCell(Text(appt['health_professional_id'] ?? '-')),
+            DataCell(Text((appt['health_professional']?['full_name'] as String?) ?? '-')),
             DataCell(Text(appt['status'] ?? '', style: TextStyle(color: _statusColor(appt['status'])),)),
             DataCell(Text(appt['notes'] ?? '-')),
+            DataCell(Text(appt['meeting_link'] ?? '-')),
           ]);
         }).toList(),
       ),
