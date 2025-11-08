@@ -20,7 +20,14 @@ class AuthNotifier extends StateNotifier<AsyncValue<UserModel?>> {
       final user = await _authRepository.getCurrentUserProfile();
       state = AsyncValue.data(user);
     } catch (e, stack) {
-      state = AsyncValue.error(e, stack);
+      // If there's no user session, set state to null (not an error)
+      if (e.toString().contains('not authenticated') || 
+          e.toString().contains('No user') ||
+          e.toString().contains('session')) {
+        state = const AsyncValue.data(null);
+      } else {
+        state = AsyncValue.error(e, stack);
+      }
     }
   }
 
@@ -129,7 +136,7 @@ final authProvider = StateNotifierProvider<AuthNotifier, AsyncValue<UserModel?>>
 // Current user provider (convenience)
 final currentUserProvider = Provider<UserModel?>((ref) {
   final authState = ref.watch(authProvider);
-  return authState.value;
+  return authState.valueOrNull;
 });
 
 // Is authenticated provider

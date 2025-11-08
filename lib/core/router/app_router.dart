@@ -21,20 +21,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/',
     redirect: (context, state) {
-      // Handle loading and error states
+      // Handle loading state - don't redirect while loading
       if (authState.isLoading) {
-        return null; // Keep on current route while loading
-      }
-      
-      if (authState.hasError) {
-        // If there's an auth error, go to login
-        if (!state.matchedLocation.startsWith('/auth')) {
-          return '/auth/login';
-        }
         return null;
       }
       
-      final isAuthenticated = authState.value != null;
+      final isAuthenticated = authState.valueOrNull != null;
       final isAuthRoute = state.matchedLocation.startsWith('/auth');
       
       // If user is authenticated and trying to access auth routes, redirect to home
@@ -42,7 +34,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         return '/';
       }
       
-      // If user is not authenticated and trying to access protected routes
+      // If user is not authenticated and trying to access protected routes, redirect to login
       if (!isAuthenticated && !isAuthRoute) {
         return '/auth/login';
       }
@@ -117,7 +109,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             },
           ),
           GoRoute(
-              path: '/appointments/team:userId',
+              path: '/appointments/team/:userId',
               name: 'teamCalendar',
               pageBuilder: (context, state) {
                 final userId = state.pathParameters['userId']!;

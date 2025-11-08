@@ -52,7 +52,7 @@ class HomeScreen extends ConsumerWidget {
                     ),
                     CircleAvatar(
                       radius: 24,
-                      backgroundColor: AppColors.primary.withOpacity(0.1),
+                      backgroundColor: AppColors.primary.withValues(alpha: 0.1),
                       child: Text(
                         (user?.fullName?.substring(0, 1) ?? 'U').toUpperCase(),
                         style: AppTextStyles.h3.copyWith(
@@ -101,7 +101,7 @@ class HomeScreen extends ConsumerWidget {
                       title: 'Appointments',
                       subtitle: 'Schedule meeting',
                       color: AppColors.accent,
-                      onTap: () => context.push('/appointments/client/:userId'),
+                      onTap: () => context.push('/appointments/client/${user?.id}'),
                     ),
                     _buildQuickActionCard(
                       context,
@@ -168,7 +168,7 @@ class HomeScreen extends ConsumerWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.03),
+              color: Colors.black.withValues(alpha: 0.03),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -182,7 +182,7 @@ class HomeScreen extends ConsumerWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
+                color: color.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
@@ -242,7 +242,7 @@ class HomeScreen extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(
