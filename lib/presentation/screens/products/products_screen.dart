@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:apptest/l10n/app_localizations.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/constants/text_styles.dart';
 import '../../../data/providers/product_provider.dart';
@@ -24,6 +25,7 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     final productsAsync = _searchQuery.isEmpty
         ? ref.watch(productsProvider)
         : ref.watch(searchProductsProvider(_searchQuery));
@@ -50,12 +52,12 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Products',
+                      t.productsTitle,
                       style: AppTextStyles.display2,
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Browse our health products',
+                      t.productsSubtitle,
                       style: AppTextStyles.bodyMedium.copyWith(
                         color: AppColors.textSecondary,
                       ),
@@ -70,7 +72,7 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                         border: Border.all(color: AppColors.border),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.03),
+                            color: Colors.black.withValues(alpha: 0.03),
                             blurRadius: 10,
                             offset: const Offset(0, 4),
                           ),
@@ -84,7 +86,7 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                           });
                         },
                         decoration: InputDecoration(
-                          hintText: 'Search products...',
+                          hintText: t.productsSearchHint,
                           hintStyle: AppTextStyles.bodyMedium.copyWith(
                             color: AppColors.textTertiary,
                           ),
@@ -135,8 +137,8 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                             const SizedBox(height: 16),
                             Text(
                               _searchQuery.isEmpty
-                                  ? 'No products available'
-                                  : 'No products found',
+                                  ? t.productsEmptyTitle
+                                  : t.productsNotFoundTitle,
                               style: AppTextStyles.h3.copyWith(
                                 color: AppColors.textSecondary,
                               ),
@@ -144,8 +146,8 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                             const SizedBox(height: 8),
                             Text(
                               _searchQuery.isEmpty
-                                  ? 'Check back later for new items'
-                                  : 'Try a different search term',
+                                  ? t.productsEmptySubtitle
+                                  : t.productsNotFoundSubtitle,
                               style: AppTextStyles.bodyMedium.copyWith(
                                 color: AppColors.textTertiary,
                               ),
@@ -183,7 +185,7 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Failed to load products',
+                          t.productsErrorTitle,
                           style: AppTextStyles.h3.copyWith(
                             color: AppColors.textSecondary,
                           ),
@@ -202,7 +204,7 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                             ref.invalidate(productsProvider);
                           },
                           icon: const Icon(Icons.refresh_rounded),
-                          label: const Text('Retry'),
+                          label: Text(t.productsErrorRetry),
                         ),
                       ],
                     ),
@@ -224,6 +226,7 @@ class _ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
@@ -231,7 +234,7 @@ class _ProductCard extends StatelessWidget {
         border: Border.all(color: AppColors.border),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -243,7 +246,7 @@ class _ProductCard extends StatelessWidget {
           onTap: () {
             // TODO: Navigate to product details
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('View ${product.name}')),
+              SnackBar(content: Text(t.productsViewProduct(product.name))),
             );
           },
           borderRadius: BorderRadius.circular(20),
@@ -313,11 +316,11 @@ class _ProductCard extends StatelessWidget {
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: AppColors.warning.withOpacity(0.1),
+                                color: AppColors.warning.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
-                                'Low stock',
+                                t.productsLowStock,
                                 style: AppTextStyles.caption.copyWith(
                                   color: AppColors.warning,
                                   fontWeight: FontWeight.w600,
@@ -331,11 +334,11 @@ class _ProductCard extends StatelessWidget {
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: AppColors.error.withOpacity(0.1),
+                                color: AppColors.error.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
-                                'Out of stock',
+                                t.productsOutOfStock,
                                 style: AppTextStyles.caption.copyWith(
                                   color: AppColors.error,
                                   fontWeight: FontWeight.w600,
@@ -360,7 +363,7 @@ class _ProductCard extends StatelessWidget {
       child: Icon(
         Icons.shopping_bag_outlined,
         size: 60,
-        color: AppColors.primary.withOpacity(0.3),
+        color: AppColors.primary.withValues(alpha: 0.3),
       ),
     );
   }

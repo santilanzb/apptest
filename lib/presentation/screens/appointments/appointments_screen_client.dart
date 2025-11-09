@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'widgets/table_widget.dart';
+import 'package:apptest/l10n/app_localizations.dart';
 
 
 class AppointmentsClientScreen extends StatelessWidget {
@@ -11,8 +12,9 @@ class AppointmentsClientScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text('My Appointments')),
+      appBar: AppBar(title: Text(t.appointmentsClientTitle)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: AppointmentsTableWidget(clientId: clientId)

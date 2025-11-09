@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/theme/app_theme.dart';
 import 'core/router/app_router.dart';
 import 'data/services/supabase_service.dart';
+import 'l10n/app_localizations.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,10 +47,12 @@ class MyApp extends ConsumerWidget {
     final router = ref.watch(goRouterProvider);
     
     return MaterialApp.router(
-      title: 'AppTest - Consulting App',
+      onGenerateTitle: (context) => AppLocalizations.of(context)?.appTitle ?? 'AppTest - Consulting App',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       routerConfig: router,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 }
@@ -56,7 +60,7 @@ class MyApp extends ConsumerWidget {
 class TestHomeScreen extends StatelessWidget {
   final bool supabaseInitialized;
   final String? errorMessage;
-  
+
   const TestHomeScreen({
     super.key,
     required this.supabaseInitialized,
@@ -65,6 +69,7 @@ class TestHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -90,32 +95,32 @@ class TestHomeScreen extends StatelessWidget {
                     color: Colors.white,
                   ),
                   const SizedBox(height: 24),
-                  const Text(
-                    'AppTest',
-                    style: TextStyle(
+                  Text(
+                    t.appTitle,
+                    style: const TextStyle(
                       fontSize: 48,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
-                    'Modern Consulting Platform',
-                    style: TextStyle(
+                  Text(
+                    t.aboutTagline,
+                    style: const TextStyle(
                       fontSize: 18,
                       color: Colors.white70,
                     ),
                   ),
                   const SizedBox(height: 48),
-                  
+
                   // Status Card
                   Container(
                     padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: Colors.white.withOpacity(0.3),
+                        color: Colors.white.withValues(alpha: 0.3),
                         width: 1,
                       ),
                     ),
@@ -129,8 +134,8 @@ class TestHomeScreen extends StatelessWidget {
                         const SizedBox(height: 16),
                         Text(
                           supabaseInitialized
-                              ? '✅ Setup Complete!'
-                              : '❌ Setup Error',
+                              ? '✅ ${t.mainSetupComplete}'
+                              : '❌ ${t.mainSetupError}',
                           style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -140,8 +145,8 @@ class TestHomeScreen extends StatelessWidget {
                         const SizedBox(height: 8),
                         Text(
                           supabaseInitialized
-                              ? 'All systems initialized successfully'
-                              : 'Could not connect to Supabase',
+                              ? t.mainSetupSuccessDetail
+                              : t.mainSetupErrorDetail,
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: 14,
@@ -153,7 +158,7 @@ class TestHomeScreen extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: Colors.red.withOpacity(0.2),
+                              color: Colors.red.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
@@ -168,19 +173,19 @@ class TestHomeScreen extends StatelessWidget {
                         const SizedBox(height: 24),
                         const Divider(color: Colors.white24),
                         const SizedBox(height: 16),
-                        _buildStatusRow('Flutter', true),
-                        _buildStatusRow('Theme System', true),
-                        _buildStatusRow('Riverpod', true),
-                        _buildStatusRow('Supabase', supabaseInitialized),
+                        _buildStatusRow(t.mainTechRowFlutter, true),
+                        _buildStatusRow(t.mainTechRowTheme, true),
+                        _buildStatusRow(t.mainTechRowRiverpod, true),
+                        _buildStatusRow(t.mainTechRowSupabase, supabaseInitialized),
                       ],
                     ),
                   ),
-                  
+
                   const SizedBox(height: 24),
-                  const Text(
-                    '🎨 Soft Blue Theme • 💬 Real-time Chat • 📦 Order Management',
+                  Text(
+                    t.mainFooterHighlights,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
                       color: Colors.white60,
                     ),

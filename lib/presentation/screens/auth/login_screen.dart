@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:apptest/l10n/app_localizations.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/constants/text_styles.dart';
 import '../../providers/auth_provider.dart';
@@ -45,23 +46,24 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       if (mounted) {
         setState(() => _isLoading = false);
       }
-      
+
       // Wait a frame to ensure UI is ready
       await Future.delayed(const Duration(milliseconds: 100));
-      
+
       if (mounted) {
+        final t = AppLocalizations.of(context)!;
         // Extract user-friendly error message
-        String errorMessage = 'Login failed. Please check your credentials.';
+        String errorMessage = t.loginErrorGeneric;
         final errorStr = e.toString();
-        
+
         if (errorStr.contains('Invalid login credentials')) {
-          errorMessage = 'Invalid email or password. Please try again.';
+          errorMessage = t.loginErrorInvalidCredentials;
         } else if (errorStr.contains('Email not confirmed')) {
-          errorMessage = 'Please verify your email address first.';
+          errorMessage = t.loginErrorEmailNotConfirmed;
         } else if (errorStr.contains('network')) {
-          errorMessage = 'Network error. Please check your connection.';
+          errorMessage = t.loginErrorNetwork;
         }
-        
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Row(
@@ -91,6 +93,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -128,16 +131,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  
+
                   Text(
-                    'Welcome Back',
+                    t.loginWelcomeBack,
                     style: AppTextStyles.h1.copyWith(
                       color: Colors.white,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Sign in to continue to AppTest',
+                    t.loginSubtitle,
                     style: AppTextStyles.bodyMedium.copyWith(
                       color: Colors.white70,
                     ),
@@ -166,26 +169,26 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         children: [
                           CustomTextField(
                             controller: _emailController,
-                            label: 'Email',
-                            hint: 'Enter your email',
+                            label: t.loginEmailLabel,
+                            hint: t.loginEmailHint,
                             keyboardType: TextInputType.emailAddress,
                             prefixIcon: const Icon(Icons.email_outlined),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter your email';
+                                return t.loginEmailRequired;
                               }
                               if (!value.contains('@')) {
-                                return 'Please enter a valid email';
+                                return t.loginEmailInvalid;
                               }
                               return null;
                             },
                           ),
                           const SizedBox(height: 20),
-                          
+
                           CustomTextField(
                             controller: _passwordController,
-                            label: 'Password',
-                            hint: 'Enter your password',
+                            label: t.loginPasswordLabel,
+                            hint: t.loginPasswordHint,
                             obscureText: _obscurePassword,
                             prefixIcon: const Icon(Icons.lock_outlined),
                             suffixIcon: IconButton(
@@ -202,16 +205,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter your password';
+                                return t.loginPasswordRequired;
                               }
                               if (value.length < 6) {
-                                return 'Password must be at least 6 characters';
+                                return t.loginPasswordTooShort;
                               }
                               return null;
                             },
                           ),
                           const SizedBox(height: 12),
-                          
+
                           Align(
                             alignment: Alignment.centerRight,
                             child: TextButton(
@@ -219,7 +222,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 context.go('/auth/forgot-password');
                               },
                               child: Text(
-                                'Forgot Password?',
+                                t.loginForgotPassword,
                                 style: AppTextStyles.labelSmall.copyWith(
                                   color: AppColors.primary,
                                 ),
@@ -227,14 +230,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ),
                           ),
                           const SizedBox(height: 24),
-                          
+
                           CustomButton(
-                            text: 'Sign In',
+                            text: t.loginSignIn,
                             onPressed: _handleLogin,
                             isLoading: _isLoading,
                           ),
                           const SizedBox(height: 24),
-                          
+
                           // Divider
                           Row(
                             children: [
@@ -242,7 +245,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 16),
                                 child: Text(
-                                  'OR',
+                                  t.loginOr,
                                   style: AppTextStyles.caption.copyWith(
                                     color: AppColors.textTertiary,
                                   ),
@@ -252,7 +255,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ],
                           ),
                           const SizedBox(height: 24),
-                          
+
                           // Social Login Buttons
                           SizedBox(
                             width: double.infinity,
@@ -260,14 +263,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               onPressed: () {
                                 // TODO: Implement Google Sign In
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Google Sign In coming soon!'),
+                                  SnackBar(
+                                    content: Text(t.loginGoogleComingSoon),
                                   ),
                                 );
                               },
                               icon: Icon(Icons.g_mobiledata, size: 28, color: AppColors.primary),
                               label: Text(
-                                'Continue with Google',
+                                t.loginGoogle,
                                 style: AppTextStyles.button.copyWith(color: AppColors.primary),
                               ),
                               style: OutlinedButton.styleFrom(
@@ -280,21 +283,21 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ),
                           ),
                           const SizedBox(height: 12),
-                          
+
                           SizedBox(
                             width: double.infinity,
                             child: OutlinedButton.icon(
                               onPressed: () {
                                 // TODO: Implement Apple Sign In
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Apple Sign In coming soon!'),
+                                  SnackBar(
+                                    content: Text(t.loginAppleComingSoon),
                                   ),
                                 );
                               },
                               icon: Icon(Icons.apple, size: 24, color: AppColors.textPrimary),
                               label: Text(
-                                'Continue with Apple',
+                                t.loginApple,
                                 style: AppTextStyles.button.copyWith(color: AppColors.textPrimary),
                               ),
                               style: OutlinedButton.styleFrom(
@@ -311,13 +314,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  
+
                   // Sign Up Link
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Don't have an account? ",
+                        '${t.loginNoAccount} ',
                         style: AppTextStyles.bodyMedium.copyWith(
                           color: Colors.white70,
                         ),
@@ -327,7 +330,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           context.go('/auth/signup');
                         },
                         child: Text(
-                          'Sign Up',
+                          t.loginSignUp,
                           style: AppTextStyles.bodyMedium.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.w600,

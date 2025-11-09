@@ -6,6 +6,7 @@ import '../../../core/constants/text_styles.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/common/custom_button.dart';
 import '../../widgets/common/custom_text_field.dart';
+import 'package:apptest/l10n/app_localizations.dart';
 
 class SignupScreen extends ConsumerStatefulWidget {
   const SignupScreen({super.key});
@@ -52,9 +53,10 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
       }
     } catch (e) {
       if (mounted) {
+        final t = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(e.toString().replaceAll('Exception: ', '')),
+            content: Text(t.signupErrorGeneric),
             backgroundColor: AppColors.error,
           ),
         );
@@ -68,6 +70,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -91,10 +94,10 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                   Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: Colors.white.withOpacity(0.3),
+                        color: Colors.white.withValues(alpha: 0.3),
                         width: 2,
                       ),
                     ),
@@ -105,16 +108,16 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  
+
                   Text(
-                    'Create Account',
+                    t.signupTitle,
                     style: AppTextStyles.h1.copyWith(
                       color: Colors.white,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Sign up to get started with AppTest',
+                    t.signupSubtitle,
                     style: AppTextStyles.bodyMedium.copyWith(
                       color: Colors.white70,
                     ),
@@ -130,7 +133,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                       borderRadius: BorderRadius.circular(24),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.black.withValues(alpha: 0.1),
                           blurRadius: 20,
                           offset: const Offset(0, 10),
                         ),
@@ -143,44 +146,44 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                         children: [
                           CustomTextField(
                             controller: _nameController,
-                            label: 'Full Name',
-                            hint: 'Enter your full name',
+                            label: t.signupNameLabel,
+                            hint: t.signupNameHint,
                             keyboardType: TextInputType.name,
                             prefixIcon: const Icon(Icons.person_outlined),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter your name';
+                                return t.signupNameRequired;
                               }
                               if (value.length < 2) {
-                                return 'Name must be at least 2 characters';
+                                return t.signupNameTooShort;
                               }
                               return null;
                             },
                           ),
                           const SizedBox(height: 20),
-                          
+
                           CustomTextField(
                             controller: _emailController,
-                            label: 'Email',
-                            hint: 'Enter your email',
+                            label: t.signupEmailLabel,
+                            hint: t.signupEmailHint,
                             keyboardType: TextInputType.emailAddress,
                             prefixIcon: const Icon(Icons.email_outlined),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter your email';
+                                return t.signupEmailRequired;
                               }
                               if (!value.contains('@')) {
-                                return 'Please enter a valid email';
+                                return t.signupEmailInvalid;
                               }
                               return null;
                             },
                           ),
                           const SizedBox(height: 20),
-                          
+
                           CustomTextField(
                             controller: _passwordController,
-                            label: 'Password',
-                            hint: 'Enter your password',
+                            label: t.signupPasswordLabel,
+                            hint: t.signupPasswordHint,
                             obscureText: _obscurePassword,
                             prefixIcon: const Icon(Icons.lock_outlined),
                             suffixIcon: IconButton(
@@ -197,20 +200,20 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter your password';
+                                return t.signupPasswordRequired;
                               }
                               if (value.length < 6) {
-                                return 'Password must be at least 6 characters';
+                                return t.signupPasswordTooShort;
                               }
                               return null;
                             },
                           ),
                           const SizedBox(height: 20),
-                          
+
                           CustomTextField(
                             controller: _confirmPasswordController,
-                            label: 'Confirm Password',
-                            hint: 'Re-enter your password',
+                            label: t.signupConfirmPasswordLabel,
+                            hint: t.signupConfirmPasswordHint,
                             obscureText: _obscureConfirmPassword,
                             prefixIcon: const Icon(Icons.lock_outlined),
                             suffixIcon: IconButton(
@@ -227,19 +230,19 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please confirm your password';
+                                return t.signupConfirmPasswordRequired;
                               }
                               if (value != _passwordController.text) {
-                                return 'Passwords do not match';
+                                return t.signupConfirmPasswordMismatch;
                               }
                               return null;
                             },
                           ),
                           const SizedBox(height: 20),
-                          
+
                           // Role Selection (optional - hidden by default for clients)
                           Text(
-                            'I am a',
+                            t.signupRoleLabel,
                             style: AppTextStyles.label.copyWith(
                               color: AppColors.textPrimary,
                             ),
@@ -249,23 +252,23 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                             spacing: 12,
                             runSpacing: 12,
                             children: [
-                              _buildRoleChip('Client', 'client', Icons.person),
-                              _buildRoleChip('Health Professional', 'health_professional', Icons.medical_services),
-                              _buildRoleChip('Logistics', 'logistics', Icons.local_shipping),
+                              _buildRoleChip(t.signupRoleClient, 'client', Icons.person),
+                              _buildRoleChip(t.signupRoleHealthProfessional, 'health_professional', Icons.medical_services),
+                              _buildRoleChip(t.signupRoleLogistics, 'logistics', Icons.local_shipping),
                             ],
                           ),
                           const SizedBox(height: 32),
-                          
+
                           CustomButton(
-                            text: 'Sign Up',
+                            text: t.signupButton,
                             onPressed: _handleSignup,
                             isLoading: _isLoading,
                           ),
                           const SizedBox(height: 24),
-                          
+
                           // Terms
                           Text(
-                            'By signing up, you agree to our Terms of Service and Privacy Policy',
+                            t.signupTerms,
                             textAlign: TextAlign.center,
                             style: AppTextStyles.caption.copyWith(
                               color: AppColors.textTertiary,
@@ -276,13 +279,13 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  
+
                   // Sign In Link
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Already have an account? ",
+                        '${t.signupAlreadyHaveAccount} ',
                         style: AppTextStyles.bodyMedium.copyWith(
                           color: Colors.white70,
                         ),
@@ -292,7 +295,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                           context.go('/auth/login');
                         },
                         child: Text(
-                          'Sign In',
+                          t.signupSignIn,
                           style: AppTextStyles.bodyMedium.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.w600,

@@ -47,7 +47,7 @@ dependencies:
   firebase_core: ^3.8.1
   firebase_messaging: ^15.1.5
   flutter_local_notifications: ^18.0.1
-  
+
   # Utils
   intl: ^0.20.1
   uuid: ^4.5.1
@@ -56,6 +56,10 @@ dependencies:
   url_launcher: ^6.3.1
   flutter_svg: ^2.0.14
   google_fonts: ^6.2.1
+
+  # Language
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +76,7 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   uses-material-design: true
+  generate: true
   
   assets:
     - .env

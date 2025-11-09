@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:apptest/l10n/app_localizations.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/constants/text_styles.dart';
 import '../../providers/auth_provider.dart';
@@ -11,6 +12,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(currentUserProvider);
+    final t = AppLocalizations.of(context)!;
 
     return Scaffold(
       body: Container(
@@ -38,14 +40,14 @@ class HomeScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Welcome back,',
+                          t.homeWelcomeBack,
                           style: AppTextStyles.bodyMedium.copyWith(
                             color: AppColors.textSecondary,
                           ),
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          user?.fullName ?? 'User',
+                          user?.fullName ?? t.homeDefaultUser,
                           style: AppTextStyles.h2,
                         ),
                       ],
@@ -66,11 +68,11 @@ class HomeScreen extends ConsumerWidget {
 
                 // Quick Actions
                 Text(
-                  'Quick Actions',
+                  t.homeQuickActions,
                   style: AppTextStyles.h3,
                 ),
                 const SizedBox(height: 16),
-                
+
                 GridView.count(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -82,32 +84,32 @@ class HomeScreen extends ConsumerWidget {
                     _buildQuickActionCard(
                       context,
                       icon: Icons.shopping_bag_rounded,
-                      title: 'Browse Products',
-                      subtitle: 'View catalog',
+                      title: t.homeActionBrowseProductsTitle,
+                      subtitle: t.homeActionBrowseProductsSubtitle,
                       color: AppColors.primary,
                       onTap: () => context.push('/products'),
                     ),
                     _buildQuickActionCard(
                       context,
                       icon: Icons.chat_bubble_rounded,
-                      title: 'Messages',
-                      subtitle: 'Chat with team',
+                      title: t.homeActionMessagesTitle,
+                      subtitle: t.homeActionMessagesSubtitle,
                       color: AppColors.success,
                       onTap: () => context.push('/chat'),
                     ),
                     _buildQuickActionCard(
                       context,
                       icon: Icons.calendar_today_rounded,
-                      title: 'Appointments',
-                      subtitle: 'Schedule meeting',
+                      title: t.homeActionAppointmentsTitle,
+                      subtitle: t.homeActionAppointmentsSubtitle,
                       color: AppColors.accent,
                       onTap: () => context.push('/appointments/client/${user?.id}'),
                     ),
                     _buildQuickActionCard(
                       context,
                       icon: Icons.receipt_long_rounded,
-                      title: 'My Orders',
-                      subtitle: 'Track orders',
+                      title: t.homeActionOrdersTitle,
+                      subtitle: t.homeActionOrdersSubtitle,
                       color: AppColors.info,
                       onTap: () {},
                     ),
@@ -117,26 +119,26 @@ class HomeScreen extends ConsumerWidget {
 
                 // Recent Activity
                 Text(
-                  'Recent Activity',
+                  t.homeRecentActivity,
                   style: AppTextStyles.h3,
                 ),
                 const SizedBox(height: 16),
-                
+
                 _buildActivityCard(
                   icon: Icons.check_circle,
-                  title: 'Setup Complete!',
-                  subtitle: 'Your account is ready to use',
+                  title: t.homeActivitySetupTitle,
+                  subtitle: t.homeActivitySetupSubtitle,
                   color: AppColors.success,
-                  time: 'Just now',
+                  time: t.homeActivityJustNow,
                 ),
                 const SizedBox(height: 12),
-                
+
                 _buildActivityCard(
                   icon: Icons.info,
-                  title: 'Welcome to AppTest',
-                  subtitle: 'Start exploring our features',
+                  title: t.homeActivityWelcomeTitle,
+                  subtitle: t.homeActivityWelcomeSubtitle,
                   color: AppColors.info,
-                  time: 'Today',
+                  time: t.homeActivityToday,
                 ),
               ],
             ),

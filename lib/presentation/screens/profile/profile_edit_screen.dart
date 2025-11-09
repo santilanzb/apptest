@@ -5,6 +5,7 @@ import '../../../core/constants/text_styles.dart';
 import '../../widgets/common/custom_text_field.dart';
 import '../../widgets/common/custom_button.dart';
 import '../../providers/auth_provider.dart';
+import 'package:apptest/l10n/app_localizations.dart';
 
 class ProfileEditScreen extends ConsumerStatefulWidget {
   const ProfileEditScreen({super.key});
@@ -17,7 +18,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   final _formKey = GlobalKey<FormState>();
   final _fullNameController = TextEditingController();
   final _phoneController = TextEditingController();
-  
+
   bool _isLoading = false;
 
   @override
@@ -50,11 +51,12 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
     try {
       // TODO: Call profile update method when implemented
       await Future.delayed(const Duration(seconds: 1)); // Simulated delay
-      
+
       if (mounted) {
+        final t = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Profile updated successfully'),
+          SnackBar(
+            content: Text(t.profileUpdateSuccess),
             backgroundColor: AppColors.success,
           ),
         );
@@ -64,7 +66,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to update profile: $e'),
+            content: Text(AppLocalizations.of(context)!.profileUpdateError),
             backgroundColor: AppColors.error,
           ),
         );
@@ -79,10 +81,11 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
+    final t = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Profile'),
+        title: Text(t.profileEditTitle),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -100,9 +103,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
         child: authState.when(
           data: (user) {
             if (user == null) {
-              return const Center(child: Text('No user logged in'));
+              return Center(child: Text(t.profileNoUser));
             }
-            
+
             return SingleChildScrollView(
               padding: const EdgeInsets.all(24),
               child: Form(
@@ -120,7 +123,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                             gradient: AppColors.primaryGradient,
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.primary.withOpacity(0.3),
+                                color: AppColors.primary.withValues(alpha: 0.3),
                                 blurRadius: 20,
                                 offset: const Offset(0, 10),
                               ),
@@ -161,7 +164,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: AppColors.surface.withOpacity(0.5),
+                        color: AppColors.surface.withValues(alpha: 0.5),
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(color: AppColors.border),
                       ),
@@ -177,7 +180,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Email',
+                                  t.profileEmailLabel,
                                   style: AppTextStyles.caption.copyWith(
                                     color: AppColors.textSecondary,
                                   ),
@@ -199,7 +202,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: AppColors.surface.withOpacity(0.5),
+                        color: AppColors.surface.withValues(alpha: 0.5),
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(color: AppColors.border),
                       ),
@@ -215,7 +218,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Role',
+                                  t.profileRoleLabel,
                                   style: AppTextStyles.caption.copyWith(
                                     color: AppColors.textSecondary,
                                   ),
@@ -239,12 +242,12 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     // Editable Fields
                     CustomTextField(
                       controller: _fullNameController,
-                      label: 'Full Name',
-                      hint: 'Enter your full name',
+                      label: t.profileFullNameLabel,
+                      hint: t.profileFullNameHint,
                       prefixIcon: const Icon(Icons.person_rounded),
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
-                          return 'Please enter your full name';
+                          return t.profileFullNameRequired;
                         }
                         return null;
                       },
@@ -253,14 +256,14 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
 
                     CustomTextField(
                       controller: _phoneController,
-                      label: 'Phone Number',
-                      hint: 'Enter your phone number',
+                      label: t.profilePhoneLabel,
+                      hint: t.profilePhoneHint,
                       prefixIcon: const Icon(Icons.phone_rounded),
                       keyboardType: TextInputType.phone,
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
                           if (value.length < 10) {
-                            return 'Please enter a valid phone number';
+                            return t.profilePhoneInvalid;
                           }
                         }
                         return null;
@@ -270,7 +273,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
 
                     // Save Button
                     CustomButton(
-                      text: 'Save Changes',
+                      text: t.profileSaveChanges,
                       onPressed: _isLoading ? null : _saveProfile,
                       isLoading: _isLoading,
                     ),
@@ -278,7 +281,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
 
                     // Cancel Button
                     CustomButton(
-                      text: 'Cancel',
+                      text: t.profileCancel,
                       onPressed: _isLoading
                           ? null
                           : () => Navigator.of(context).pop(),
@@ -291,7 +294,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
           },
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (error, stack) => Center(
-            child: Text('Error: $error'),
+            child: Text(t.profileLoadError),
           ),
         ),
       ),

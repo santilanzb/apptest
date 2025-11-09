@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:go_router/go_router.dart';
-
+import 'package:apptest/l10n/app_localizations.dart';
 
 class CalendarWidget extends StatefulWidget {
   final String userId;
@@ -34,9 +34,9 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           .select()
           .eq('health_professional_id', widget.userId)
           .order('scheduled_at', ascending: true);
-      
+
       final data = response as List;
-      
+
       final fetched = data.map( (item) {
         final start = DateTime.parse(item['scheduled_at']);
         final duration = (item['duration_minutes'] ?? 60) as int;
@@ -50,7 +50,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           color: _statusColor(item['status']),
         );
       }).toList();
-      
+
       setState(() {
         _appointments = fetched;
         _loading = false;
@@ -60,15 +60,16 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       setState(() {
         _loading = false;
       });
-    } 
+    }
   } // Future
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     if (_loading) {
       return const Center(child: CircularProgressIndicator(),);
     }
-    
+
     return SfCalendar(
       view: CalendarView.week,
       dataSource: AppointmentDataSource(_appointments),
@@ -82,13 +83,13 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           showDialog(context: context, builder: (_) => AlertDialog(
             title: Text(appt.subject),
             content: Text(
-              'Start: ${appt.startTime}\n'
-              'End: ${appt.endTime}\n'
-              'Notes: ${appt.notes ?? "No notes"}\n'
-              'Meeting Link: ${appt.location ?? "-"}'
+              '${t.appointmentDialogStart}: ${appt.startTime}\n'
+              '${t.appointmentDialogEnd}: ${appt.endTime}\n'
+              '${t.appointmentDialogNotes}: ${appt.notes?.isNotEmpty == true ? appt.notes : t.appointmentDialogNoNotes}\n'
+              '${t.appointmentDialogMeetingLink}: ${appt.location?.isNotEmpty == true ? appt.location : "-"}',
             ),
             actions: [
-              TextButton(onPressed: () => context.pop(), child: const Text('Close')),
+              TextButton(onPressed: () => context.pop(), child: Text(t.appointmentDialogClose)),
             ],
           ));
         }
@@ -115,4 +116,3 @@ class AppointmentDataSource extends CalendarDataSource {
     appointments = source;
   }
 }
-

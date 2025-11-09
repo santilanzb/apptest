@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/constants/text_styles.dart';
+import 'package:apptest/l10n/app_localizations.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('About Us'),
+        title: Text(t.aboutTitle),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -36,7 +39,7 @@ class AboutScreen extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
-                        color: AppColors.primary.withOpacity(0.1),
+                        color: AppColors.primary.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
@@ -47,12 +50,12 @@ class AboutScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 24),
                     Text(
-                      'AppTest',
+                      t.aboutAppName,
                       style: AppTextStyles.display2,
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Modern Consulting Platform',
+                      t.aboutTagline,
                       style: AppTextStyles.bodyLarge.copyWith(
                         color: AppColors.textSecondary,
                       ),
@@ -61,75 +64,64 @@ class AboutScreen extends StatelessWidget {
                 ),
               ),
 
-              // Mission Section
+              // Mission / Vision / Values Section
               Padding(
                 padding: const EdgeInsets.all(24.0),
                 child: Column(
                   children: [
                     _buildSectionCard(
                       icon: Icons.flag_rounded,
-                      title: 'Our Mission',
-                      description:
-                          'To provide exceptional consulting services that empower individuals to achieve their health and wellness goals through personalized support and cutting-edge technology.',
+                      title: t.aboutMissionTitle,
+                      description: t.aboutMissionDescription,
                       color: AppColors.primary,
                     ),
                     const SizedBox(height: 16),
-                    
                     _buildSectionCard(
                       icon: Icons.visibility_rounded,
-                      title: 'Our Vision',
-                      description:
-                          'To revolutionize the consulting industry by creating seamless connections between clients and professionals, making expert guidance accessible to everyone.',
+                      title: t.aboutVisionTitle,
+                      description: t.aboutVisionDescription,
                       color: AppColors.success,
                     ),
                     const SizedBox(height: 16),
-                    
                     _buildSectionCard(
                       icon: Icons.favorite_rounded,
-                      title: 'Our Values',
-                      description:
-                          'Integrity, excellence, innovation, and compassion guide everything we do. We believe in putting people first and delivering results that matter.',
+                      title: t.aboutValuesTitle,
+                      description: t.aboutValuesDescription,
                       color: AppColors.accent,
                     ),
-                    
                     const SizedBox(height: 32),
-                    
+
                     // Features Section
                     Text(
-                      'What We Offer',
+                      t.aboutWhatWeOfferTitle,
                       style: AppTextStyles.h2,
                     ),
                     const SizedBox(height: 24),
-                    
                     _buildFeatureItem(
                       icon: Icons.chat_bubble_rounded,
-                      title: 'Real-time Communication',
-                      description: 'Connect with your team instantly through our integrated chat system.',
+                      title: t.aboutFeatureRealtimeTitle,
+                      description: t.aboutFeatureRealtimeDescription,
                     ),
                     const SizedBox(height: 16),
-                    
                     _buildFeatureItem(
                       icon: Icons.calendar_today_rounded,
-                      title: 'Easy Scheduling',
-                      description: 'Book appointments and manage your calendar effortlessly.',
+                      title: t.aboutFeatureSchedulingTitle,
+                      description: t.aboutFeatureSchedulingDescription,
                     ),
                     const SizedBox(height: 16),
-                    
                     _buildFeatureItem(
                       icon: Icons.shopping_bag_rounded,
-                      title: 'Product Catalog',
-                      description: 'Browse and order from our curated selection of health products.',
+                      title: t.aboutFeatureCatalogTitle,
+                      description: t.aboutFeatureCatalogDescription,
                     ),
                     const SizedBox(height: 16),
-                    
                     _buildFeatureItem(
                       icon: Icons.people_rounded,
-                      title: 'Expert Team',
-                      description: 'Work with certified health professionals and logistics experts.',
+                      title: t.aboutFeatureExpertTeamTitle,
+                      description: t.aboutFeatureExpertTeamDescription,
                     ),
-                    
                     const SizedBox(height: 32),
-                    
+
                     // Contact Section
                     Container(
                       width: double.infinity,
@@ -139,7 +131,7 @@ class AboutScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.primary.withOpacity(0.2),
+                            color: AppColors.primary.withValues(alpha: 0.2),
                             blurRadius: 20,
                             offset: const Offset(0, 10),
                           ),
@@ -154,14 +146,14 @@ class AboutScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            'Get in Touch',
+                            t.aboutContactTitle,
                             style: AppTextStyles.h3.copyWith(
                               color: Colors.white,
                             ),
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Have questions? We\'re here to help!',
+                            t.aboutContactSubtitle,
                             textAlign: TextAlign.center,
                             style: AppTextStyles.bodyMedium.copyWith(
                               color: Colors.white70,
@@ -169,7 +161,7 @@ class AboutScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            'support@apptest.com',
+                            t.aboutContactEmail,
                             style: AppTextStyles.bodyLarge.copyWith(
                               color: Colors.white,
                               fontWeight: FontWeight.w600,
@@ -178,19 +170,18 @@ class AboutScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    
                     const SizedBox(height: 24),
-                    
+
                     // App Info
                     Text(
-                      'Version 1.0.0',
+                      t.aboutVersionLabel,
                       style: AppTextStyles.caption.copyWith(
                         color: AppColors.textTertiary,
                       ),
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      '© 2025 AppTest. All rights reserved.',
+                      t.aboutCopyright,
                       style: AppTextStyles.caption.copyWith(
                         color: AppColors.textTertiary,
                       ),
@@ -220,7 +211,7 @@ class AboutScreen extends StatelessWidget {
         border: Border.all(color: AppColors.border),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -231,7 +222,7 @@ class AboutScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -276,7 +267,7 @@ class AboutScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: AppColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(

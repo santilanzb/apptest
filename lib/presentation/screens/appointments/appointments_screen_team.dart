@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'widgets/calendar_widget.dart';
+import 'package:apptest/l10n/app_localizations.dart';
 
 
 class TeamCalendarScreen extends StatelessWidget {
@@ -8,8 +9,9 @@ class TeamCalendarScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text('My Appointment')),
+      appBar: AppBar(title: Text(t.appointmentsTeamTitle)),
       body: CalendarWidget(userId: userId),
     );
   }

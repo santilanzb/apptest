@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
+import 'package:apptest/l10n/app_localizations.dart';
 
 class AppointmentsTableWidget extends StatefulWidget {
   final String clientId;
@@ -51,23 +51,24 @@ class _AppointmentsTableWidgetState extends State<AppointmentsTableWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (_loading) return const Center(child: CircularProgressIndicator(),);
+    final t = AppLocalizations.of(context)!;
+    if (_loading) return Center(child: CircularProgressIndicator());
 
-    if (_appointments.isEmpty){
-      return const Center(child: Text("No appointments found."),);
+    if (_appointments.isEmpty) {
+      return Center(child: Text(t.appointmentsTableEmpty));
     }
 
     return SingleChildScrollView(
       // scrollDirection: Axis.horizontal,
       child: DataTable(
         headingRowColor: WidgetStatePropertyAll(Colors.blue.shade50),
-        columns: const [
-          DataColumn(label: Text('Date')),
-          DataColumn(label: Text('Time')),
-          DataColumn(label: Text('Professional')),
-          DataColumn(label: Text('Status')),
-          DataColumn(label: Text('Notes')),
-          DataColumn(label: Text('Location')),
+        columns: [
+          DataColumn(label: Text(t.appointmentsTableDate)),
+          DataColumn(label: Text(t.appointmentsTableTime)),
+          DataColumn(label: Text(t.appointmentsTableProfessional)),
+          DataColumn(label: Text(t.appointmentsTableStatus)),
+          DataColumn(label: Text(t.appointmentsTableNotes)),
+          DataColumn(label: Text(t.appointmentsTableLocation)),
         ],
         rows: _appointments.map((appt) {
           final start = DateTime.parse(appt['scheduled_at']);
